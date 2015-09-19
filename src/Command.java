@@ -2,6 +2,14 @@
 public class Command {
 	private String command;
 	private String commandArgument;
+	
+	public Command() {}
+
+	public Command(String cmd, String cmdArgument) {
+		this.command = cmd;
+		this.commandArgument = cmdArgument;
+	}
+	
 	public String getCommand() {
 		return command;
 	}
