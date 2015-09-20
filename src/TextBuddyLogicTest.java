@@ -1,4 +1,6 @@
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+
+import java.util.ArrayList;
 
 import org.junit.Test;
 
@@ -57,7 +59,6 @@ public class TextBuddyLogicTest {
 		tb.addItem("a2");
 		tb.addItem("a3");
 		
-		System.out.println("hello");
 		tb.deleteItem(2);
 		assertEquals(tb.getTempItemsStorage().get(0), "1. a0");
 		assertEquals(tb.getTempItemsStorage().get(1), "2. a2");
@@ -81,7 +82,7 @@ public class TextBuddyLogicTest {
 	}
 
 
-	//@Test
+	@Test
 	public void testClearFileContent() {
 		TextBuddyLogic tb = new TextBuddyLogic();
 		tb.addItem("a0");
@@ -96,10 +97,60 @@ public class TextBuddyLogicTest {
 		assertEquals(String.format(clearResult.getMessage(), "mytextfile.txt", clearResult.getMessageArguments()), "all content deleted from mytextfile.txt");
 
 	}
+	
+	@Test
+	public void testSearchItem() {
+		TextBuddyLogic tb = new TextBuddyLogic();
+		tb.addItem("a0");
+		tb.addItem("a1 a0");
+		tb.addItem("a2");
+		tb.addItem("a3 a0");
+		
 
-	//@Test
-	public void testPrintItems() {
-		fail("Not yet implemented");
+		Feedback searchEmptyStringResult = tb.searchItem("");
+		assertEquals(searchEmptyStringResult.getMessage(), "Please enter an argument.");	
+	}
+	
+	@Test
+	public void testSearchInStorage() {
+		TextBuddyLogic tb = new TextBuddyLogic();
+		tb.addItem("a0");
+		tb.addItem("a1 a0");
+		tb.addItem("a2");
+		tb.addItem("a3 a0");
+		
+		ArrayList<String> result1 = tb.searchInStorage("a0");
+		assertEquals(result1.get(0), "1. a0");
+		assertEquals(result1.get(1), "2. a1 a0");
+		assertEquals(result1.get(2), "4. a3 a0");
+		
+		ArrayList<String> result2 = tb.searchInStorage("a12345");
+		assertEquals(result2.size(), 0);
+		
+	}
+	
+	@Test
+	public void testSortItems() {
+		TextBuddyLogic tb = new TextBuddyLogic();
+		tb.addItem("happy");
+		tb.addItem("sad");
+		tb.addItem("apple");
+		tb.addItem("jello");
+		
+		tb.sortItems();
+		
+		assertEquals(tb.getTempItemsStorage().get(0), "1. apple");
+		assertEquals(tb.getTempItemsStorage().get(1), "2. happy");
+		assertEquals(tb.getTempItemsStorage().get(2), "3. jello");
+		assertEquals(tb.getTempItemsStorage().get(3), "4. sad");
+		
+		tb.addItem("appie");
+		tb.sortItems();
+		assertEquals(tb.getTempItemsStorage().get(0), "1. appie");
+		assertEquals(tb.getTempItemsStorage().get(1), "2. apple");
+		assertEquals(tb.getTempItemsStorage().get(2), "3. happy");
+		assertEquals(tb.getTempItemsStorage().get(3), "4. jello");
+		assertEquals(tb.getTempItemsStorage().get(4), "5. sad");
 	}
 
 }

@@ -142,11 +142,14 @@ public class TextBuddyLogic {
 	 *            The word the user would like to search for.
 	 */
 	public Feedback searchItem(String item) {
-		ArrayList<String> searchResult = searchInStorage(item);
-		printSearchResult(searchResult);
-		return new Feedback();
+		if (item.equals(EMPTY_STRING)) {
+			return new Feedback(MSG_INVALID_ARG);
+		} else {
+			ArrayList<String> searchResult = searchInStorage(item);
+			printSearchResult(searchResult);
+			return new Feedback();
+		}
 	}
-
 	/**
 	 * Helper method that searches for word in tempItemStorage.
 	 */

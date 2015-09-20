@@ -1,3 +1,10 @@
+/**
+ * A Feedback object consists of feedback message specifying the result of a command execution, 
+ * as well as feedback message arguments, the additional information needed for the feedback. 
+ * 
+ * @author Jenny
+ *
+ */
 
 public class Feedback {
 	private String message;
